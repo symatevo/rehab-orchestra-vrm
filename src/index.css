@@ -54,3 +54,219 @@ body {
     transform: translateX(0);
   }
 }
+
+/* ── Cue pop animations (from reference design) ───────────────────────── */
+
+@keyframes cue-pop-perfect {
+  0% {
+    transform: translateX(-50%) scale(1) rotate(0deg);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  40% {
+    transform: translateX(-50%) scale(1.38) rotate(-6deg);
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+  100% {
+    transform: translateX(-50%) scale(0) rotate(12deg);
+    opacity: 0;
+    filter: brightness(1.35);
+  }
+}
+
+@keyframes cue-pop-late {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(0.2) translateY(12px);
+    opacity: 0;
+  }
+}
+
+@keyframes cue-pop-miss {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    filter: hue-rotate(0deg);
+  }
+  60% {
+    transform: translateX(-50%) scale(0.85);
+    opacity: 0.7;
+    filter: hue-rotate(-25deg) saturate(1.4);
+  }
+  100% {
+    transform: translateX(-50%) scale(0.1);
+    opacity: 0;
+  }
+}
+
+.animate-cue-pop-perfect { animation: cue-pop-perfect 0.44s ease-out forwards; }
+.animate-cue-pop-late    { animation: cue-pop-late    0.38s ease-in  forwards; }
+.animate-cue-pop-miss    { animation: cue-pop-miss    0.36s ease-in  forwards; }
+
+/* ── Fist cue pop animations ──────────────────────────────────────────── */
+
+@keyframes cue-fist-pop-perfect {
+  0%   { transform: scale(1);    opacity: 1; filter: brightness(1);    }
+  40%  { transform: scale(1.2);  opacity: 1; filter: brightness(1.2);  }
+  100% { transform: scale(0.15); opacity: 0; filter: brightness(1.35); }
+}
+
+@keyframes cue-fist-pop-late {
+  0%   { transform: scale(1);    opacity: 1; }
+  100% { transform: scale(0.35); opacity: 0; }
+}
+
+@keyframes cue-fist-pop-miss {
+  0%   { transform: scale(1);    opacity: 1;    }
+  55%  { transform: scale(0.88); opacity: 0.65; }
+  100% { transform: scale(0.1);  opacity: 0;    }
+}
+
+.animate-cue-fist-pop-perfect { animation: cue-fist-pop-perfect 0.44s ease-out forwards; }
+.animate-cue-fist-pop-late    { animation: cue-fist-pop-late    0.38s ease-in  forwards; }
+.animate-cue-fist-pop-miss    { animation: cue-fist-pop-miss    0.36s ease-in  forwards; }
+
+/* ── Hold cue animations ─────────────────────────────────────────────── */
+
+@keyframes cue-hold-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 2px rgba(251,191,36,0.55), 0 0 18px rgba(251,191,36,0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(254,243,199,0.85), 0 0 28px rgba(251,191,36,0.55);
+  }
+}
+
+@keyframes cue-hold-ring-breathe {
+  0%, 100% { transform: translate(-50%, 0) scale(1);    opacity: 0.45; }
+  50%       { transform: translate(-50%, 0) scale(1.12); opacity: 0.82; }
+}
+
+.animate-cue-hold-glow { animation: cue-hold-glow        1.15s ease-in-out infinite; }
+.animate-cue-hold-ring { animation: cue-hold-ring-breathe 1.05s ease-in-out infinite; }
+
+/* ── Hit feedback animations ─────────────────────────────────────────── */
+
+@keyframes hit-shockwave {
+  0%   { transform: translateX(-50%) scale(0.35); opacity: 0.9; }
+  100% { transform: translateX(-50%) scale(1.7);  opacity: 0;   }
+}
+
+@keyframes hit-particle {
+  0%   { transform: translateX(-50%) rotate(var(--p-angle)) translateX(0);             opacity: 1; }
+  100% { transform: translateX(-50%) rotate(var(--p-angle)) translateX(var(--p-dist)); opacity: 0; }
+}
+
+.animate-hit-shockwave { animation: hit-shockwave 0.36s ease-out forwards; }
+.animate-hit-particle  { animation: hit-particle  0.42s ease-out forwards; }
+
+/* ── Fist hit flash ──────────────────────────────────────────────────── */
+
+@keyframes fist-flash {
+  0%   { transform: translateX(-50%) scale(0.4); opacity: 0.95; }
+  100% { transform: translateX(-50%) scale(1.7); opacity: 0;    }
+}
+
+@keyframes fist-core {
+  0%   { transform: translateX(-50%) scale(0.7); opacity: 0.8; }
+  100% { transform: translateX(-50%) scale(1.2); opacity: 0;   }
+}
+
+.animate-fist-flash { animation: fist-flash 0.36s ease-out forwards; }
+.animate-fist-core  { animation: fist-core  0.32s ease-out forwards; }
+
+/* ── Rose rain (results screen) ─────────────────────────────────────── */
+
+@keyframes rose-fall {
+  0%   { transform: translateY(0)     translateX(0)                      rotate(0deg);             opacity: 0.9;  }
+  100% { transform: translateY(110vh) translateX(var(--rose-drift, 0px)) rotate(var(--rose-rot, 360deg)); opacity: 0.12; }
+}
+
+.results-rose {
+  animation: rose-fall linear forwards;
+}
+
+/* ── Session progress bar ────────────────────────────────────────────── */
+
+@keyframes session-progress-sparkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.45); }
+  50%       { opacity: 1;    transform: scale(1.05); }
+}
+
+.session-progress-sparkle {
+  animation: session-progress-sparkle 1.6s ease-in-out infinite;
+}
+
+/* ── Grade feedback labels (PERFECT / GOOD / LATE / MISS) ───────────── */
+
+@keyframes feedback-great {
+  0%   { transform: translateX(-50%) scale(0.75) translateY(10px); opacity: 0; }
+  35%  { transform: translateX(-50%) scale(1.18) translateY(-5px);  opacity: 1; }
+  100% { transform: translateX(-50%) scale(1)    translateY(-20px); opacity: 0; }
+}
+
+@keyframes feedback-late {
+  0%   { transform: translateX(-50%) scale(0.88);              opacity: 0; }
+  35%  { transform: translateX(-50%) scale(1.05);              opacity: 1; }
+  100% { transform: translateX(-50%) scale(0.9) translateY(8px); opacity: 0; }
+}
+
+@keyframes feedback-miss {
+  0%   { transform: translateX(-50%) scale(1);                          opacity: 0; }
+  25%  { transform: translateX(calc(-50% - 6px)) scale(1.05);           opacity: 1; }
+  75%  { transform: translateX(calc(-50% + 6px)) scale(1);              opacity: 1; }
+  100% { transform: translateX(-50%) scale(0.88) translateY(10px);       opacity: 0; }
+}
+
+.animate-feedback-great { animation: feedback-great 0.8s  ease-out     forwards; }
+.animate-feedback-late  { animation: feedback-late  0.72s ease-out     forwards; }
+.animate-feedback-miss  { animation: feedback-miss  0.72s ease-in-out  forwards; }
+
+/* ── Streak sparkles overlay (6+ streak) ────────────────────────────────── */
+
+@keyframes streak-sparkle-in {
+  0%   { transform: scale(0.15) translate(-50%, -50%); opacity: 0; }
+  25%  { opacity: 1; }
+  60%  { opacity: 0.9; }
+  100% { transform: scale(2.0) translate(-50%, -50%); opacity: 0; }
+}
+
+.animate-streak-sparkle {
+  animation: streak-sparkle-in var(--ss-dur, 1.4s) ease-out infinite;
+  animation-delay: var(--ss-delay, 0s);
+}
+
+/* Close cue shrinks from large to ring size as it approaches hit time */
+@keyframes cue-close-shrink {
+  from { transform: scale(2.35); }
+  to   { transform: scale(1);    }
+}
+
+/* GPU promotion for all animated game elements */
+.animate-hit-shockwave,
+.animate-hit-particle,
+.animate-fist-flash,
+.animate-fist-core,
+.animate-cue-pop-perfect,
+.animate-cue-pop-late,
+.animate-cue-pop-miss {
+  will-change: transform, opacity;
+}
+
+.session-progress-liquid {
+  background: linear-gradient(
+    105deg,
+    rgba(251,146,60,0.95) 0%,
+    rgba(251,191,36,0.88) 28%,
+    rgba(56,189,248,0.82) 62%,
+    rgba(14,165,233,0.92) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.35),
+    0 0 18px rgba(56,189,248,0.35),
+    0 0 22px rgba(251,146,60,0.25);
+}

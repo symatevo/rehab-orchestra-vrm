@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell([System.IO.Directory]::GetDirectories\\(\"C:\\\\Users\\\\User\\\\Desktop\"\\))",
+      "Bash(ls -la \"C:\\\\Users\\\\User\\\\Desktop\\\\Խաղ ֆիզիo\" 2>&1 | head -20)",
+      "Read(//c/Users/User/Desktop/**)",
+      "Bash(ls -la \"C:\\\\Users\\\\User\\\\Desktop\\\\Խաղ ֖իзիо\" 2>&1 | head -20)",
+      "Bash(xargs grep -l \"elbow_down\\\\|PLAYER_VARIANTS\\\\|CueCircle\")",
+      "Bash(Get-ChildItem \"C:\\\\Users\\\\User\\\\Desktop\\\\\" -Directory -Filter \"*Խ*\" | Select-Object -ExpandProperty FullName)",
+      "Bash(npx vite *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\Խաղ ֆիզիո\\\\src\\\\session\\\\\" -File | Select-Object Name)",
+      "PowerShell(ls \"C:\\\\Users\\\\User\\\\Desktop\\\\Խաղ ֆիզիո\\\\src\\\\session\\\\\" | %{ $_.Name })",
+      "PowerShell(ls \"C:\\\\Users\\\\User\\\\Desktop\\\\Խաղ ֆիզիո\\\\src\\\\store\\\\\" | %{ $_.Name })",
+      "PowerShell(ls \"C:\\\\Users\\\\User\\\\Desktop\\\\Խաղ ֆիզիո\\\\src\\\\components\\\\\" | %{ $_.Name })",
+      "PowerShell(ls \"C:\\\\Users\\\\User\\\\Desktop\\\\Խաղ ֆիզիո\\\\src\\\\components\\\\lobby\\\\\" | %{ $_.Name })",
+      "PowerShell(ls \"C:\\\\Users\\\\User\\\\Desktop\\\\Խաղ ֆիզիո\\\\src\\\\components\\\\level\\\\\" | %{ $_.Name })"
+    ]
+  }
+}
