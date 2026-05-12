@@ -8,16 +8,17 @@
 // All sounds gracefully skip if their asset files are missing.
 
 import { useRef, useCallback, useEffect } from 'react';
+import { assetUrl } from '../utils/assetUrl';
 
 // Feedback sound paths — gracefully skipped if files don't exist
 const FEEDBACK_SOUNDS = {
-  hit_perfect:  '/sounds/hit_perfect.mp3',
-  hit_good:     '/sounds/hit_good.mp3',
-  miss:         '/sounds/miss.mp3',
-  wrong:        '/sounds/wrong.mp3',
-  streak_5:     '/sounds/streak_5.mp3',
-  streak_10:    '/sounds/streak_10.mp3',
-  bravo:        '/sounds/bravo.mp3',
+  hit_perfect:  assetUrl('sounds/hit_perfect.mp3'),
+  hit_good:     assetUrl('sounds/hit_good.mp3'),
+  miss:         assetUrl('sounds/miss.mp3'),
+  wrong:        assetUrl('sounds/wrong.mp3'),
+  streak_5:     assetUrl('sounds/streak_5.mp3'),
+  streak_10:    assetUrl('sounds/streak_10.mp3'),
+  bravo:        assetUrl('sounds/bravo.mp3'),
 };
 
 export function useMusicSync() {

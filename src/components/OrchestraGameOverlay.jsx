@@ -6,10 +6,11 @@
 
 import { useEffect, useRef } from 'react';
 import { useGameStore, GAME_STATES } from '../hooks/useGameStore';
+import { assetUrl } from '../utils/assetUrl';
 
 // ── Sprite definitions ────────────────────────────────────────────────────────
 
-const BASE = '/models/Orchestra/Orchestra/';
+const BASE = assetUrl('models/Orchestra/Orchestra/');
 
 const VIOLA_VARIANTS = {
   viola1: { url: `${BASE}viola1-normal-sprite/spritesheet.png`, frameW: 292, frameH: 482, cols: 2, rows: 2, frames: 4 },

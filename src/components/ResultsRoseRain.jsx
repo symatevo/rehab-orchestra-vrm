@@ -1,6 +1,7 @@
 // src/components/ResultsRoseRain.jsx
 // Falling rose petals on the results screen (same as reference project).
 import { useMemo } from 'react';
+import { assetUrl } from '../utils/assetUrl';
 
 const ROSE_COUNT = 42;
 
@@ -34,7 +35,7 @@ export function ResultsRoseRain() {
       {roses.map((r) => (
         <img
           key={r.id}
-          src="/rose.png"
+          src={assetUrl('rose.png')}
           alt=""
           className="results-rose"
           style={{

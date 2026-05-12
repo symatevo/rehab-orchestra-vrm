@@ -4,6 +4,7 @@
 // Adapted for our project: supports two-hand mode (alternating left/right) and mirror therapy.
 
 import carnivalSwanSong from './orchestra/carnivalSwanSong.json';
+import { assetUrl } from '../utils/assetUrl';
 
 /** @typedef {'up'|'down'|'holdUp'|'holdDown'|'close'} CueKind */
 
@@ -187,7 +188,7 @@ function quantizePreserveOrder(chart, beatSec) {
 
 // Song data map — add more entries as songs get MIDI data
 const SONG_DATA = {
-  '/music/game.mp3': carnivalSwanSong,
+  [assetUrl('music/game.mp3')]: carnivalSwanSong,
 };
 
 /**

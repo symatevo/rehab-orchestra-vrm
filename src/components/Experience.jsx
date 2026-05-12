@@ -10,11 +10,12 @@ import { SkeletonUtils } from "three-stdlib";
 import { SRGBColorSpace, Vector3 } from "three";
 import { useVideoRecognition } from '../hooks/useVideoRecognition';
 import { useCalibration } from '../hooks/useCalibration';
+import { assetUrl } from '../utils/assetUrl';
 
 // ── Playing stage environment ─────────────────────────────────────────────────
 
 function PlayingSkyBackdrop() {
-  const tex = useTexture('/game-sky.png');
+  const tex = useTexture(assetUrl('game-sky.png'));
   tex.colorSpace = SRGBColorSpace;
   return (
     <mesh position={[0, -1, -12.4]}>

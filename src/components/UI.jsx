@@ -1,6 +1,7 @@
 ﻿import { useVideoRecognition } from "../hooks/useVideoRecognition";
 import { useState, useEffect } from "react";
 import { LEVELS } from "../data/levels";
+import { assetUrl } from "../utils/assetUrl";
 
 export const UI = () => {
     const gameState = useVideoRecognition((state) => state.gameState);
@@ -151,7 +152,7 @@ export const UI = () => {
                                 zIndex: 10, display: "flex", alignItems: "center",
                                 justifyContent: "center", boxShadow: "0 0 20px rgba(255,255,255,0.5)",
                             }}>✕</button>
-                            <video src="/videos/Demo.mp4" autoPlay loop style={{
+                            <video src={assetUrl("videos/Demo.mp4")} autoPlay loop style={{
                                 width: "100%", borderRadius: "12px",
                                 boxShadow: "0 0 40px rgba(255,255,255,0.15)",
                             }} />

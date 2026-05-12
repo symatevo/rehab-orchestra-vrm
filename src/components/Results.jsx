@@ -6,6 +6,7 @@
 
 import { useEffect, useState } from 'react';
 import { ResultsRoseRain } from './ResultsRoseRain';
+import { assetUrl } from '../utils/assetUrl';
 
 const BLUE  = '#2563eb';
 const NAVY  = '#1a2f6e';
@@ -22,7 +23,7 @@ export function Results({ metrics, onPlayAgain, onNextLevel, onExit }) {
 
   // Applause + staggered reveal
   useEffect(() => {
-    const audio = new Audio('/audio/applause.mp3');
+    const audio = new Audio(assetUrl('audio/applause.mp3'));
     audio.volume = 0.85;
     audio.play().catch(() => {});
 

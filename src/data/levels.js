@@ -1,5 +1,7 @@
 // src/data/levels.js
 // Level definitions for RehabOrchestra.
+
+import { assetUrl } from '../utils/assetUrl';
 // Each level has a song, BPM, duration, and beat map.
 // Beat maps are generated from BPM — the CueSequencer attaches movements to cue beats.
 
@@ -41,7 +43,7 @@ export const LEVELS = [
   buildLevel(
     1,
     'Level 1 — Carnival of the Animals (The Swan)',
-    '/music/game.mp3',
+    assetUrl('music/game.mp3'),
     48,
     151,
     2
@@ -49,7 +51,7 @@ export const LEVELS = [
   buildLevel(
     2,
     'Level 2 — Numb (Orchestra)',
-    '/music/Numb Orchestra.m4a',
+    assetUrl('music/Numb Orchestra.m4a'),
     54,
     180,
     2
@@ -57,7 +59,7 @@ export const LEVELS = [
   buildLevel(
     3,
     'Level 3 — Dancing Queen',
-    '/music/ABBA-Dancing-Queen.m4a',
+    assetUrl('music/ABBA-Dancing-Queen.m4a'),
     60,
     180,
     2
@@ -65,7 +67,7 @@ export const LEVELS = [
   buildLevel(
     4,
     'Level 4 — Viva La Vida',
-    '/music/Coldplay-Viva-La-Vida-Epic-Orchestra.m4a',
+    assetUrl('music/Coldplay-Viva-La-Vida-Epic-Orchestra.m4a'),
     63,
     180,
     2
@@ -73,7 +75,7 @@ export const LEVELS = [
   buildLevel(
     5,
     'Level 5 — Pirates of the Caribbean',
-    '/music/Pirates.m4a',
+    assetUrl('music/Pirates.m4a'),
     65,
     180,
     2
