@@ -30,6 +30,8 @@ export const useGameStore = create((set, get) => ({
   setWarmupComplete: (val) => set({ warmupComplete: val }),
   romThresholds: {},          // set by useROMCalibration during warm-up
   setROMThresholds: (t) => set({ romThresholds: t }),
+  cueSpeedMultiplier: 1.0,
+  setCueSpeedMultiplier: (v) => set({ cueSpeedMultiplier: Math.max(0.3, Math.min(2.5, v)) }),
 
   // ── Performance state ────────────────────────────────────────────────────────
   isPaused: false,

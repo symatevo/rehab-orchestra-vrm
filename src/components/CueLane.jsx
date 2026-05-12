@@ -22,6 +22,7 @@ export function CueLane({
   songTime,
   timingWindowMs = 900,
   cueGrades = {},
+  speedMultiplier = 1,
 }) {
   // Stable snapshot of songTime at the moment each cue first became visible.
   // This lets CueCircle compute its CSS animation-delay once at mount and never
@@ -30,9 +31,9 @@ export function CueLane({
 
   // ── Visible cues (travelling + briefly lingering after grade) ───────────────
   const visibleCues = useMemo(() => {
-    return allCues.filter((cue) => {
+    const all = allCues.filter((cue) => {
       if (cue.side !== side && cue.side !== 'both') return false;
-      const travelSec   = cue.travel ?? DEFAULT_TRAVEL_S;
+      const travelSec   = (cue.travel ?? DEFAULT_TRAVEL_S) / speedMultiplier;
       const spawnTime   = cue.time - travelSec;
       const graded      = !!cueGrades[cue.id];
       const despawnTime = graded ? cue.time + POP_LINGER_S : cue.time + 1.0;
@@ -43,7 +44,12 @@ export function CueLane({
       }
       return visible;
     });
-  }, [allCues, side, songTime, cueGrades]);
+    // Limit visible ungraded cues: 1 at slow speed (focus on one movement at a time),
+    // 2 at normal/fast speed (allow preview of the next incoming cue).
+    const graded   = all.filter(c => !!cueGrades[c.id]);
+    const upcoming = all.filter(c => !cueGrades[c.id]).slice(0, 2);
+    return [...graded, ...upcoming];
+  }, [allCues, side, songTime, cueGrades, speedMultiplier]);
 
   // ── Grade flash entries + fist FX trigger ───────────────────────────────────
   const [flashes,  setFlashes]  = useState([]);
@@ -121,7 +127,9 @@ export function CueLane({
           mountSongTime={mountTimesRef.current[cue.id] ?? songTime}
           grade={cueGrades[cue.id] ?? null}
           landYBottom={LAND_Y_BOTTOM}
-          travelMs={(cue.travel ?? DEFAULT_TRAVEL_S) * 1000}
+          travelMs={speedMultiplier <= 1
+              ? (cue.travel ?? DEFAULT_TRAVEL_S) * 1000
+              : (cue.travel ?? DEFAULT_TRAVEL_S) / speedMultiplier * 1000}
         />
       ))}
 

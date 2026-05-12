@@ -60,6 +60,7 @@ function StreakSparkles() {
 
 export function HUD({ allCues = [], songTime = 0, songDuration = 180, timingWindowMs, cueGrades = {}, onPause }) {
   const { streakCount } = useGameStore();
+  const cueSpeedMultiplier = useGameStore((s) => s.cueSpeedMultiplier ?? 1);
 
   // ESC → pause
   useEffect(() => {
@@ -100,6 +101,7 @@ export function HUD({ allCues = [], songTime = 0, songDuration = 180, timingWind
         songTime={songTime}
         timingWindowMs={timingWindowMs}
         cueGrades={cueGrades}
+        speedMultiplier={cueSpeedMultiplier}
       />
 
       {/* Right cue lane */}
@@ -110,6 +112,7 @@ export function HUD({ allCues = [], songTime = 0, songDuration = 180, timingWind
         songTime={songTime}
         timingWindowMs={timingWindowMs}
         cueGrades={cueGrades}
+        speedMultiplier={cueSpeedMultiplier}
       />
 
       {/* Streak badge */}

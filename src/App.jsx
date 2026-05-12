@@ -26,6 +26,7 @@ import { useVideoRecognition } from "./hooks/useVideoRecognition";
 import { NEVER_CUE } from "./data/movements";
 import { buildMidiCueChart } from "./data/buildChart";
 import { PoseBar } from "./components/PoseBar";
+import { CueSpeedBar } from "./components/CueSpeedBar";
 
 
 
@@ -177,6 +178,9 @@ function App() {
   } = store;
 
   const levelConfig = LEVEL_MAP[selectedLevelId] ?? LEVEL_MAP[1];
+  const cueSpeedMultiplier = useGameStore((s) => s.cueSpeedMultiplier ?? 1);
+  // Slow speed = wider timing window (easier to time), fast = tighter. Capped at 2000ms.
+  const adjustedTimingWindowMs = Math.min(2000, Math.round((calibration.timingWindowMs ?? 900) / cueSpeedMultiplier));
 
   // ── Song time + cue state ────────────────────────────────────────────────
   const [songTime, setSongTimeLocal] = useState(0);
@@ -233,7 +237,7 @@ function App() {
 
   // ── Hit detection ─────────────────────────────────────────────────────────
   const hitDetection = useHitDetection({
-    timingWindowMs: calibration.timingWindowMs ?? 900,
+    timingWindowMs: adjustedTimingWindowMs,
     onHit: (cueId, grade, points, side, movementId, cue, timingOffset, reactionTime) => {
       clearGradeTimeout(cueId);
       setCueGrades((prev) => ({ ...prev, [cueId]: grade }));
@@ -304,14 +308,15 @@ function App() {
 
       const tl = timelineRef.current;
 
+      const expireThreshS = adjustedTimingWindowMs / 1000;
       tl.forEach((cue) => {
         // Register when cue spawns (travel time before hit)
         const travelSec = cue.travel ?? 1.85;
-        if (t >= cue.time - travelSec && t <= cue.time + 0.65) {
+        if (t >= cue.time - travelSec && t <= cue.time + expireThreshS) {
           hitDetection.registerCue(cue);
         }
-        // Expire (trigger miss) just after the detection window closes
-        if (t > cue.time + 0.65) {
+        // Expire (trigger miss) after the detection window closes
+        if (t > cue.time + expireThreshS) {
           hitDetection.expireCue(cue.id);
         }
       });
@@ -525,7 +530,7 @@ function App() {
           allCues={timelineRef.current}
           songTime={songTime}
           songDuration={levelConfig.durationSeconds ?? 180}
-          timingWindowMs={calibration.timingWindowMs ?? 900}
+          timingWindowMs={adjustedTimingWindowMs}
           cueGrades={cueGrades}
           onPause={handlePause}
         />
@@ -533,6 +538,7 @@ function App() {
 
       {/* Pose bar — right edge expression indicator (both hands) */}
       {isPerformance && <PoseBar poseStateRef={poseStateRef} />}
+      {isPerformance && <CueSpeedBar />}
 
       {/* PAUSE MENU */}
       {phase === GAME_STATES.PAUSED && (

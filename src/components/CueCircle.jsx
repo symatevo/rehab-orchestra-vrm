@@ -95,6 +95,7 @@ export const CueCircle = memo(function CueCircle({
   if (approach === 'close') {
     const spawnTime = scheduledTime - travelMs / 1000;
     const elapsed   = Math.round(Math.max(0, ((mountSongTime ?? songTime) - spawnTime) * 1000));
+    const holding   = songTime < spawnTime;
     return (
       <div
         style={{
@@ -103,6 +104,7 @@ export const CueCircle = memo(function CueCircle({
           bottom: RING_BOTTOM,
           transform: 'translate(-50%, 50%)',
           pointerEvents: 'none',
+          opacity: holding ? 0 : 1,
         }}
       >
         <div
@@ -140,10 +142,11 @@ export const CueCircle = memo(function CueCircle({
   // at hit time, matching reference behaviour and keeping it visible at grade time.
   const spawnTime = scheduledTime - travelMs / 1000;
   const travelSec = travelMs / 1000;
-  const pRaw  = Math.min(1.12, Math.max(0, (songTime - spawnTime) / travelSec));
-  const pPos  = Math.min(1, pRaw);
-  const start = approach === 'up' ? UP_FROM : DOWN_FROM;
-  const y     = start + pPos * (landYBottom - start);
+  const pRaw   = Math.min(1.12, Math.max(0, (songTime - spawnTime) / travelSec));
+  const pPos   = Math.min(1, pRaw);
+  const start  = approach === 'up' ? UP_FROM : DOWN_FROM;
+  const y      = start + pPos * (landYBottom - start);
+  const holding = songTime < spawnTime;
 
   const holdBars = (
     <span style={{ marginTop: 4, display: 'flex', alignItems: 'flex-end', gap: 4, pointerEvents: 'none' }}>
@@ -174,6 +177,7 @@ export const CueCircle = memo(function CueCircle({
         justifyContent: 'center',
         pointerEvents: 'none',
         userSelect: 'none',
+        opacity: holding ? 0 : 1,
         willChange: 'transform',
         ...shapeStyle,
         // Hold cue: pulsing box-shadow glow — animates a different property than
