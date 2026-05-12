@@ -955,7 +955,7 @@ async function beginSession() {
   a.download = `calibration_${payload.patientId || 'patient'}_${Date.now()}.json`;
   a.click();
   // Then redirect to your game
-  window.location.href = 'http://localhost:5173';
+  window.location.href = 'http://symatevo.github.io/rehab-orchestra-vrm';
 }
 
 if (IMGS.wrist_target) document.getElementById('jf-wrist-img').src = IMGS.wrist_target;
