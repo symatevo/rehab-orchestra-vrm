@@ -762,8 +762,8 @@ export const Experience = () => {
                   avatar={avatar}
                   mode={warmupAvatarMode}
                   activeMovement={warmupAvatarMovement}
-                  isMirrorTherapy={isPerformance && calibration.isMirrorTherapy}
-                  mirrorLeadSide={isPerformance ? (calibration.mirrorLeadSide ?? calibration.nonAffectedSide) : null}
+                  isMirrorTherapy={calibration.isMirrorTherapy}
+                  mirrorLeadSide={calibration.mirrorLeadSide ?? calibration.nonAffectedSide ?? null}
                 />
               </group>
             </group>
