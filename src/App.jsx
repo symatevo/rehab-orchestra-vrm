@@ -226,6 +226,11 @@ function App() {
     },
   });
 
+  // Keep a stable ref to adaptation.reset so handleStartPerformance doesn't
+  // get a new reference every render (adaptation object is recreated each render).
+  const adaptationResetRef = useRef(adaptation.reset);
+  adaptationResetRef.current = adaptation.reset;
+
   // Grade feedback timeout cleanup
   const gradeTimeouts = useRef({});
   const clearGradeTimeout = (cueId) => {
@@ -354,14 +359,14 @@ function App() {
   setWarmupDone(false);
   buildTimeline();
   hitDetection.reset();
-  adaptation.reset();
+  adaptationResetRef.current();
   setCueGrades({});
   songTimeRef.current = 0;
   setSongTimeLocal(0);
   gameEndFiredRef.current = false;
   goToPerformance();
   music.startSong(levelConfig.song);
-}, [buildTimeline, hitDetection, adaptation, goToPerformance, music, levelConfig]);
+}, [buildTimeline, hitDetection, goToPerformance, music, levelConfig]);
 
   const handlePause = useCallback(() => {
     pause('manual');
