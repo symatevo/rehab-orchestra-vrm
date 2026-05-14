@@ -97,9 +97,23 @@ export function useAdaptation({ baseBPM, onAdaptation }) {
     }
   }, [baseBPM, setCurrentBPM]);
 
+  const reset = useCallback(() => {
+    const base = baseBPM ?? 55;
+    currentBPM.current       = base;
+    densityMultiplier.current = 1.0;
+    easyOnlyMode.current      = false;
+    lastEvalTime.current      = Date.now();
+    thrivingStart.current     = null;
+    recentHitCount.current    = 0;
+    recentMissCount.current   = 0;
+    setCurrentBPM(base);
+    setDensityMultiplier(1.0);
+  }, [baseBPM, setCurrentBPM, setDensityMultiplier]);
+
   return {
     recordHit,
     recordMiss,
+    reset,
     getCurrentBPM: () => currentBPM.current,
     getDensityMultiplier: () => densityMultiplier.current,
     isEasyOnlyMode: () => easyOnlyMode.current,

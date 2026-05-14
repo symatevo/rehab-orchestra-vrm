@@ -354,13 +354,14 @@ function App() {
   setWarmupDone(false);
   buildTimeline();
   hitDetection.reset();
+  adaptation.reset();
   setCueGrades({});
   songTimeRef.current = 0;
   setSongTimeLocal(0);
   gameEndFiredRef.current = false;
   goToPerformance();
   music.startSong(levelConfig.song);
-}, [buildTimeline, hitDetection, goToPerformance, music, levelConfig]);
+}, [buildTimeline, hitDetection, adaptation, goToPerformance, music, levelConfig]);
 
   const handlePause = useCallback(() => {
     pause('manual');
@@ -381,6 +382,12 @@ function App() {
 
   const handleExitToLobby = useCallback(() => {
     music.stopSong();
+    // Cancel all pending grade-removal timeouts and clear grades UI
+    Object.keys(gradeTimeouts.current).forEach((id) => {
+      clearTimeout(gradeTimeouts.current[id]);
+    });
+    gradeTimeouts.current = {};
+    setCueGrades({});
     goToLobby();
   }, [music, goToLobby]);
 
@@ -391,6 +398,11 @@ function App() {
 
   const handlePlayAgain = useCallback(() => {
     music.stopSong();
+    Object.keys(gradeTimeouts.current).forEach((id) => {
+      clearTimeout(gradeTimeouts.current[id]);
+    });
+    gradeTimeouts.current = {};
+    setCueGrades({});
     goToLobby();
   }, [music, goToLobby]);
 

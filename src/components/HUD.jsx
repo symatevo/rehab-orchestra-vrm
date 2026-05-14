@@ -61,6 +61,7 @@ function StreakSparkles() {
 export function HUD({ allCues = [], songTime = 0, songDuration = 180, timingWindowMs, cueGrades = {}, onPause }) {
   const { streakCount } = useGameStore();
   const cueSpeedMultiplier = useGameStore((s) => s.cueSpeedMultiplier ?? 1);
+  const sessionKey         = useGameStore((s) => s.sessionKey);
 
   // ESC → pause
   useEffect(() => {
@@ -93,8 +94,9 @@ export function HUD({ allCues = [], songTime = 0, songDuration = 180, timingWind
         }}
       >⏸</button>
 
-      {/* Left cue lane */}
+      {/* Left cue lane — keyed by sessionKey so refs reset between sessions */}
       <CueLane
+        key={`left-${sessionKey}`}
         side="left"
         laneX={45.65}
         allCues={allCues}
@@ -106,6 +108,7 @@ export function HUD({ allCues = [], songTime = 0, songDuration = 180, timingWind
 
       {/* Right cue lane */}
       <CueLane
+        key={`right-${sessionKey}`}
         side="right"
         laneX={54.35}
         allCues={allCues}

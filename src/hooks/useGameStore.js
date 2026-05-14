@@ -86,6 +86,10 @@ export const useGameStore = create((set, get) => ({
   calibrationVersion: 0,
   bumpCalibrationVersion: () => set((s) => ({ calibrationVersion: s.calibrationVersion + 1 })),
 
+  // ── Session key — incremented each time a performance begins ─────────────────
+  // Used as React key on CueLane to force remount and clear accumulated refs.
+  sessionKey: 0,
+
   // ── State transition helpers ─────────────────────────────────────────────────
   goToLobby: () => set({
     phase: GAME_STATES.LOBBY,
@@ -116,7 +120,7 @@ export const useGameStore = create((set, get) => ({
     songTime: 0,
   }),
 
-  goToPerformance: () => set({
+  goToPerformance: () => set((s) => ({
     phase: GAME_STATES.PERFORMANCE,
     isPaused: false,
     score: 0,
@@ -126,7 +130,8 @@ export const useGameStore = create((set, get) => ({
     recentHits: [],
     recentMisses: [],
     songTime: 0,
-  }),
+    sessionKey: s.sessionKey + 1,
+  })),
 
   goToResults: (metrics) => set({
     phase: GAME_STATES.RESULTS,
