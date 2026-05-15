@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="/rehab-orchestra-vrm/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orchestra Rehab</title>
+    <style>
+      #app-loader {
+        position: fixed; inset: 0; z-index: 9999;
+        background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 55%, #0f172a 100%);
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        font-family: system-ui, -apple-system, sans-serif;
+        transition: opacity 0.5s ease-out;
+      }
+      #app-loader.hidden { opacity: 0; pointer-events: none; }
+      .loader-note { font-size: 52px; margin-bottom: 18px; animation: loader-bounce 1.2s ease-in-out infinite; }
+      @keyframes loader-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+      }
+      .loader-title {
+        font-size: 22px; font-weight: 700; color: #e2e8f0; margin: 0 0 6px;
+        letter-spacing: 2px; text-transform: uppercase;
+      }
+      .loader-sub { font-size: 13px; color: rgba(148,163,184,0.8); margin: 0 0 28px; }
+      .loader-bar-wrap {
+        width: 180px; height: 4px; background: rgba(255,255,255,0.12);
+        border-radius: 9999px; overflow: hidden;
+      }
+      .loader-bar {
+        height: 100%; width: 40%;
+        background: linear-gradient(90deg, #38bdf8, #818cf8);
+        border-radius: 9999px;
+        animation: loader-slide 1.4s ease-in-out infinite;
+      }
+      @keyframes loader-slide {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(350%); }
+      }
+    </style>
+    <script type="module" crossorigin src="/rehab-orchestra-vrm/assets/index-C_ZHbtQ5.js"></script>
+    <link rel="stylesheet" crossorigin href="/rehab-orchestra-vrm/assets/index-CBcZunaz.css">
+  </head>
+  <body style="margin:0">
+    <div id="app-loader">
+      <div class="loader-note">🎼</div>
+      <p class="loader-title">RehabOrchestra</p>
+      <p class="loader-sub">Loading performance...</p>
+      <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+    </div>
+    <div id="root"></div>
+    <script>
+      // Hide loader once React has painted
+      window.__hideAppLoader = function() {
+        var el = document.getElementById('app-loader');
+        if (el) { el.classList.add('hidden'); setTimeout(function(){ el.remove(); }, 600); }
+      };
+    </script>
+  </body>
+</html>
