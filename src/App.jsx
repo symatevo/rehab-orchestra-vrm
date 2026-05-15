@@ -164,21 +164,33 @@ function buildFullTimeline(calibration, levelConfig, seed = 42) {
 
 function App() {
   const calibration = useCalibration();
-  const store = useGameStore();
-  const {
-    phase, selectedLevelId, sessionNumber,
-    isPaused, romThresholds,
-    goToLobby, goToWarmup, goToPerformance, goToResults,
-    pause, resume,
-    setTotalPossible, addScore,
-    addRecentHit, addRecentMiss,
-    setSongTime, currentBPM,
-    setFinalMetrics,
-    incrementHitCount,
-  } = store;
+  // Selective selectors — App only re-renders when these specific slices change.
+  // Previously `useGameStore()` (no selector) caused App to re-render on every
+  // store update including high-frequency ones like streakCount and recentHits.
+  const phase            = useGameStore((s) => s.phase);
+  const selectedLevelId  = useGameStore((s) => s.selectedLevelId);
+  const sessionNumber    = useGameStore((s) => s.sessionNumber);
+  const isPaused         = useGameStore((s) => s.isPaused);
+  const romThresholds    = useGameStore((s) => s.romThresholds);
+  const currentBPM       = useGameStore((s) => s.currentBPM);
+  const cueSpeedMultiplier = useGameStore((s) => s.cueSpeedMultiplier ?? 1);
+
+  // Actions never change reference in Zustand — grab once via selector.
+  const goToLobby        = useGameStore((s) => s.goToLobby);
+  const goToWarmup       = useGameStore((s) => s.goToWarmup);
+  const goToPerformance  = useGameStore((s) => s.goToPerformance);
+  const goToResults      = useGameStore((s) => s.goToResults);
+  const pause            = useGameStore((s) => s.pause);
+  const resume           = useGameStore((s) => s.resume);
+  const setTotalPossible = useGameStore((s) => s.setTotalPossible);
+  const addScore         = useGameStore((s) => s.addScore);
+  const addRecentHit     = useGameStore((s) => s.addRecentHit);
+  const addRecentMiss    = useGameStore((s) => s.addRecentMiss);
+  const setSongTime      = useGameStore((s) => s.setSongTime);
+  const setFinalMetrics  = useGameStore((s) => s.setFinalMetrics);
+  const incrementHitCount = useGameStore((s) => s.incrementHitCount);
 
   const levelConfig = LEVEL_MAP[selectedLevelId] ?? LEVEL_MAP[1];
-  const cueSpeedMultiplier = useGameStore((s) => s.cueSpeedMultiplier ?? 1);
   // Slow speed = wider timing window (easier to time), fast = tighter. Capped at 2000ms.
   const adjustedTimingWindowMs = Math.min(2000, Math.round((calibration.timingWindowMs ?? 900) / cueSpeedMultiplier));
 
@@ -219,11 +231,16 @@ function App() {
   });
 
   // ── Difficulty adaptation ─────────────────────────────────────────────────
+  // metricsRef keeps a stable reference to metrics so onAdaptation doesn't
+  // change every render (which would cause useAdaptation's interval to reinstall).
+  const metricsRef = useRef(metrics);
+  metricsRef.current = metrics;
+  const onAdaptation = useCallback(({ fromBPM, toBPM, reason }) => {
+    metricsRef.current.recordAdaptation({ fromBPM, toBPM, reason });
+  }, []);
   const adaptation = useAdaptation({
     baseBPM: calibration.baseBPM,
-    onAdaptation: ({ fromBPM, toBPM, reason }) => {
-      metrics.recordAdaptation({ fromBPM, toBPM, reason });
-    },
+    onAdaptation,
   });
 
   // Keep a stable ref to adaptation.reset so handleStartPerformance doesn't
